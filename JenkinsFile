@@ -12,8 +12,16 @@ pipeline {
         }
         stage('installing dependencies'){
             steps {
+                echo 'installing dependencies...'
                 sh 'npm install'
             }
         }
+        stage('Build project') {
+            steps {
+                echo 'Building...'
+                sh 'npm run build'
+            }
+        }
+        
     }
 }
