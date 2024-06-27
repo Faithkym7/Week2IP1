@@ -1,21 +1,29 @@
 pipeline {
     agent any
+    
+    environment {
+        RENDER_API_TOKEN = credentials('render') 
+    }
+    
     tools {
         nodejs 'node-12'
     }
-    stages{
-        stage('clone repository'){
+    
+    stages {
+        stage('Clone repository') {
             steps {
-                echo 'cloning repository...'
+                echo 'Cloning repository...'
                 git 'https://github.com/Faithkym7/Week2IP1.git'
             }
         }
-        stage('installing dependencies'){
+        
+        stage('Install dependencies') {
             steps {
-                echo 'installing dependencies...'
+                echo 'Installing dependencies...'
                 sh 'npm install'
             }
         }
+        
         stage('Build project') {
             steps {
                 echo 'Building...'
@@ -23,5 +31,24 @@ pipeline {
             }
         }
         
+        stage('Deploy to Render') {
+            steps {
+                echo 'Deploying to Render...'
+                sh '''
+                    curl -sL https://render.com/install | bash
+                    render login --api-token ${RENDER_API_TOKEN}
+                    render deploy --branch master -- --build-env NODE_ENV=production
+                '''
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo 'Deployment to Render succeeded!'
+        }
+        failure {
+            echo 'Deployment to Render failed!'
+        }
     }
 }
