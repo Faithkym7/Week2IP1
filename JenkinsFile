@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+    tools {
+        nodejs 'node-12'
+    }
+    stages{
+        stage('clone repository'){
+            steps {
+                echo 'cloning repository...'
+                git 'https://github.com/Faithkym7/Week2IP1.git'
+            }
+        }
+    }
+}
