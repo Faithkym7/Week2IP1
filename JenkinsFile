@@ -10,5 +10,10 @@ pipeline {
                 git 'https://github.com/Faithkym7/Week2IP1.git'
             }
         }
+        stage('installing dependencies'){
+            steps {
+                sh 'npm install'
+            }
+        }
     }
 }
