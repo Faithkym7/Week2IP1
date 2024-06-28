@@ -28,6 +28,13 @@ pipeline {
                 sh 'npm install'
             }
         }
+
+        stage('install mocha and chai'){
+            steps{
+                echo 'other dependencies...'
+                sh 'npm install --save-dev mocha chai chai-http'
+            }
+        }
         
         stage('Build project') {
             steps {
