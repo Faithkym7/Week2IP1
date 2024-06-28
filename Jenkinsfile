@@ -34,6 +34,13 @@ pipeline {
             }
         }
         
+        stage('Test project'){
+            steps{
+                echo 'Testing...'
+                sh 'npm test'
+            }
+        }
+        
         stage('Deploy to Render') {
             steps {
                 echo 'Deploying to Render...'
