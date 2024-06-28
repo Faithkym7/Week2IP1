@@ -6,6 +6,8 @@ pipeline {
         RENDER_API_TOKEN = credentials('Render')
         
         RENDER_APP_NAME = 'Week2IP1'
+
+        EMAIL_RECIPIENT = 'faithkym7@gmail.com'
     }
     
     tools {
@@ -61,6 +63,20 @@ pipeline {
         }
         failure {
             echo 'Deployment to Render failed!'
+        }
+        always{
+            script{
+                if(currentBuild.result == 'FAILURE'){
+                   emailext (
+                        to: "${EMAIL_RECIPIENT}",
+                        subject: "Jenkins Build Failed: ${env.JOB_NAME} ${env.BUILD_NUMBER}",
+                        body: """
+                        <p>The Jenkins build <b>${env.JOB_NAME} ${env.BUILD_NUMBER}</b> has failed.</p>
+                        <p>Please check the Jenkins console output for more details: ${env.BUILD_URL}</p>
+                        """
+                    ) 
+                }
+            }
         }
     }
 }
