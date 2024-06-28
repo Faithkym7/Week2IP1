@@ -35,6 +35,12 @@ pipeline {
                 sh 'npm install --save-dev mocha chai chai-http'
             }
         }
+        stage('Test project'){
+            steps{
+                echo 'Testing...'
+                sh 'npm test'
+            }
+        }
         
         stage('Build project') {
             steps {
@@ -43,12 +49,7 @@ pipeline {
             }
         }
         
-        stage('Test project'){
-            steps{
-                echo 'Testing...'
-                sh 'npm test'
-            }
-        }
+        
         
         stage('Deploy to Render') {
             steps {
