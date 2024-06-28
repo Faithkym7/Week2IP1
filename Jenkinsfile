@@ -53,6 +53,7 @@ pipeline {
             steps{
                 echo 'starting server...'
                 sh 'npm start &'
+                sleep 10 //time for the server to start
             }
         }
         
