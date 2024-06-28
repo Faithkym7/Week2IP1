@@ -5,11 +5,18 @@ let upload = require('./upload');
 const url = require('url')
 let Image = require('../models/images');
 
-
-
+//test data
+const photos = [
+    { id: 1, title: 'Photo 1' },
+    { id: 2, title: 'Photo 2' },
+    { id: 3, title: 'Photo 3' }
+];
 
 router.get('/', (req,res)=>{
     
+    //test
+    res.status(200).json(photos);
+    //
     Image.find({}, function(err, images){
         // console.log(images)
         if (err) console.log(err);
