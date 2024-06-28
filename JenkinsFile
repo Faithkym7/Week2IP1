@@ -2,7 +2,10 @@ pipeline {
     agent any
     
     environment {
-        RENDER_API_TOKEN = credentials('render') 
+        
+        RENDER_API_TOKEN = credentials('Render')
+        
+        RENDER_APP_NAME = 'Week2IP1'
     }
     
     tools {
@@ -34,11 +37,13 @@ pipeline {
         stage('Deploy to Render') {
             steps {
                 echo 'Deploying to Render...'
-                sh '''
-                    curl -sL https://render.com/install | bash
-                    render login --api-token ${RENDER_API_TOKEN}
-                    render deploy --branch master -- --build-env NODE_ENV=production
-                '''
+                script {
+                    // Use curl to trigger a deployment to Render
+                    sh "curl -X POST -H 'Authorization: Bearer ${RENDER_API_TOKEN}' \
+                        -H 'Content-Type: application/json' \
+                        -d '{\"branch\": \"master\", \"env\": {\"NODE_ENV\": \"production\"}}' \
+                        https://api.render.com/v1/service/${RENDER_APP_NAME}/deploy"
+                }
             }
         }
     }
