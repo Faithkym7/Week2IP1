@@ -54,6 +54,9 @@ pipeline {
                 echo 'starting server...'
                 sh 'npm start &'
                 sleep 10 //time for the server to start
+
+                //check for UI
+                sh 'curl -s http://localhost:5000/'
             }
         }
         
@@ -80,6 +83,9 @@ pipeline {
         }
         always{
             script{
+                //server stop
+                sh 'npm stop'
+
                 if(currentBuild.result == 'FAILURE'){
                    emailext (
                         to: "${EMAIL_RECIPIENT}",
