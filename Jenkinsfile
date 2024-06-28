@@ -41,7 +41,7 @@ pipeline {
                 sh 'npm test'
             }
         }
-        
+
         stage('Build project') {
             steps {
                 echo 'Building...'
@@ -49,7 +49,12 @@ pipeline {
             }
         }
         
-        
+        stage('start server'){
+            steps{
+                echo 'starting server...'
+                sh 'npm start &'
+            }
+        }
         
         stage('Deploy to Render') {
             steps {
