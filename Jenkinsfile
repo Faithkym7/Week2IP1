@@ -8,6 +8,10 @@ pipeline {
         RENDER_APP_NAME = 'Week2IP1'
 
         EMAIL_RECIPIENT = 'faithkym7@gmail.com'
+
+        SLACK_CHANNEL = '#faith_ip1' 
+        
+        SLACK_CREDENTIALS_ID = 'Slack'
     }
     
     tools {
@@ -76,9 +80,13 @@ pipeline {
     post {
         success {
             echo 'Deployment to Render succeeded!'
+            echo 'SlackBot success message'
+            slackSend channel: "${SLACK_CHANNEL}", color: 'good', message: "Build succeeded: ${env.JOB_NAME} ${env.BUILD_NUMBER}. Access app on https://week2ip1.onrender.com/"
         }
         failure {
             echo 'Deployment to Render failed!'
+            echo 'SlackBot failed message'
+            slackSend channel: "${SLACK_CHANNEL}", color: 'danger', message: "Build failed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
         }
         always{
             script{
